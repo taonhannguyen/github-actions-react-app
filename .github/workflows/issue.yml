@@ -1,0 +1,14 @@
+name: Notify on Issue
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  slack-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send a Slack Message
+        uses: docker://technosophos/slack-notify
+        env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_MESSAGE: "New issue created, <${{ github.event.issue.html_url }}|${{ github.event.issue.title }}>"
