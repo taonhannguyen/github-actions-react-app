@@ -67,7 +67,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
         run: npx surge --project ./build --domain peaceful-belief.surge.sh
 
-      - name: Deploy to Master
+      - name: Deploy to Master Env
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: npx surge --project ./build --domain my-production-url.surge.sh
 
