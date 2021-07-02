@@ -19,12 +19,12 @@ jobs:
       - run: npm test -- --coverage
         env:
           CI: true
-      - name : Build project
+      - name: Build project
         if: github.event.name == 'push'
         run: npm run build
-      - name : Deploy to Staging
+      - name: Deploy to Staging
         if: github.event.name == 'push'
         run: npx surge --project ./build --domain peaceful-belief.surge.sh
         env:
-            SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-            SURGET_TOKEN: ${{ secrets.SURGE_TOKEN }}
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGET_TOKEN: ${{ secrets.SURGE_TOKEN }}
