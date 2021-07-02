@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+      SURGET_TOKEN: ${{ secrets.SURGE_TOKEN }}
     steps:
       - uses: actions/checkout@v2
 
@@ -48,6 +51,12 @@ jobs:
           name: build
           path: build
 
+      - name: Zip assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' # only push to master
+        run: |
+          zip -r build.zip ./build
+          zip -r coverage.zip ./coverage
+
       - name: Create a Release
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' # only push to master
         uses: actions/upload-artifact@v1
@@ -56,8 +65,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Staging
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
         run: npx surge --project ./build --domain peaceful-belief.surge.sh
-        env:
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGET_TOKEN: ${{ secrets.SURGE_TOKEN }}
+
+      - name: Deploy to Master
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: npx surge --project ./build --domain my-production-url.surge.sh
+
