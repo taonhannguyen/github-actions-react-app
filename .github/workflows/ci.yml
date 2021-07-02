@@ -57,7 +57,7 @@ jobs:
           zip -r build.zip ./build
           zip -r coverage.zip ./coverage
 
-      - name: Create a Release
+      - name: Create a Release # npm install --save-dev semantic-release
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' # only push to master
         run: npx semantic-release
         env:
