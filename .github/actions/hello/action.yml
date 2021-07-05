@@ -1,0 +1,14 @@
+name: Hello World
+author: Tao-Nhan Nguyen
+description: Some description
+inputs:
+  who-to-greet:
+    description: 'Who to greet'
+    required: true
+    default: Tao-Nhan
+outputs:
+  time:
+    description: The greeting time
+runs:
+  using: 'node12'
+  main: 'dist/index.js' #npx ncc build .github/actions/hello/index.js -o .github/actions/hello/dist
